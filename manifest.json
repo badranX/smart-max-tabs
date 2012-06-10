@@ -1,0 +1,35 @@
+{
+  "manifest_version": 2,
+  "name": "Max Tabs (Web Extension)",
+  "short_name": "Max Tabs",
+  "version": "0.1.0",
+  "description": "Set maximum number of opened tabs in a window.",
+  "default_locale": "en",
+  "icons": {
+    "48": "icons/icon-48.png"
+  },
+  "author": "Kan-Ru Chen",
+  "homepage_url": "https://github.com/kanru/max-tabs",
+  "incognito": "spanning",
+  "background": {
+    "scripts": ["lib/chroma.js", "background.js"]
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "browser_style": true
+  },
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": "icons/icon.svg",
+    "default_title": "Max Tabs"
+  },
+  "permissions": [
+    "notifications",
+    "storage"
+  ],
+  "applications": {
+    "gecko": {
+      "id": "max-tabs@kanru"
+    }
+  }
+}

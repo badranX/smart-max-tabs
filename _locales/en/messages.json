@@ -1,0 +1,12 @@
+{
+  "title": {
+    "message": "Max Tabs"
+  },
+  "notOpenMaxTabs": {
+    "message": "You have decided not to open more than $1 tabs.",
+    "description": "Tells the user the maximum number of tabs has reached."
+  },
+  "optionMaxTabs": {
+    "message": "Maximum number of tabs"
+  }
+}
