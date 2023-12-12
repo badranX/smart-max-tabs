@@ -5,8 +5,24 @@
 /*global browser, chroma */
 let title = browser.i18n.getMessage('title');
 let maxTabs = 10;
+let tabs = {}
+let tabs_time = {}
 let includePinned = false;
 let colorScale = chroma.scale(['#A6A6A6', '#B90000']);
+
+function recordTab(tabId){
+	prev = tabs[tabId] ?? 0;
+	tabs[tabId] = prev + 1;
+
+	time = Date.now()
+	tabs_time[tabId] = time
+}
+
+function deleteTab(tabId){
+	delete tabs_time[tabId]
+	delete tabs[tabId]
+}
+
 
 function updatePrefs() {
   return new Promise((resolve, reject) => {
@@ -41,6 +57,15 @@ async function queryNumTabs() {
   return tabs.length;
 }
 
+let last_active = browser.tabs.getCurrent()
+
+browser.tabs.onActivated.addListener( activeInfo =>{
+	recordTab(activeInfo.tabId);
+})
+
+browser.tabs.onRemoved.addListener(
+(tabId, removeInfo) => {deleteTab(tabId)});
+
 browser.tabs.onCreated.addListener(tab => {
   if (browser.windows.get(tab.windowId).focused) {
     // We only care about the current window
@@ -49,19 +74,18 @@ browser.tabs.onCreated.addListener(tab => {
   if (tab.id != browser.tabs.TAB_ID_NONE) {
     queryNumTabs().then(numTabs => {
       if (numTabs > maxTabs) {
-        browser.tabs.remove(tab.id).then(() => {
-          browser.notifications.create("", {
-            type: "basic",
-            title: title,
-            message: browser.i18n.getMessage('notOpenMaxTabs', maxTabs)
-          });
-        });
+	var keys   = Object.keys(tabs_time);
+	var lowest = Math.min.apply(null, keys.map(function(x) { return tabs_time[x]} ));
+	var match  = keys.filter(function(y) { return tabs_time[y] === lowest });
+        browser.tabs.remove(parseInt(match[0]))
+	recordTab(tab.id)
       } else {
         updateButton(numTabs);
       }
     });
   }
 });
+
 
 browser.tabs.onRemoved.addListener((tabId, removeInfo) => {
   if (removeInfo.isWindowClosing) {
