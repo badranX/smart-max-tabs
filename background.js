@@ -5,10 +5,24 @@
 /*global browser, chroma */
 let title = browser.i18n.getMessage('title');
 let maxTabs = 10;
+let historySize = 30;
 let tabs = {}
+let tabsInfo = {}
+let tabsIDs = []
 let tabs_time = {}
 let includePinned = false;
 let colorScale = chroma.scale(['#A6A6A6', '#B90000']);
+
+function recordHistory(tab){
+	tabsIDs.push(tab.id)
+	tabsInfo[tab.id] = {
+      url: tab.url,
+      title: tab.title}
+	if (tabs.length > (maxTabs+historySize)){
+		const removedElement = myArray.shift();
+		delete tabs[removedElement];
+	}
+}
 
 function recordTab(tabId){
 	prev = tabs[tabId] ?? 0;
@@ -21,15 +35,37 @@ function recordTab(tabId){
 function deleteTab(tabId){
 	delete tabs_time[tabId]
 	delete tabs[tabId]
+if (tabId in tabInfo){
+	tab = tabInfo[tabId]
+    closedTabs.push({
+      url: tab.url,
+      title: tab.title,
+    });
+    	if (closedTabs.length > historySize){
+		closedTabs.shift()
+	}
 }
 
+}
+
+
+// Listen for messages to retrieve closed tabs
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+console.log("INNNN")
+  if (request.action === "getClosedTabs") {
+		console.log("INNNNiifffff")
+    sendResponse(closedTabs);
+  }
+});
 
 function updatePrefs() {
   return new Promise((resolve, reject) => {
     browser.storage.sync.get({
-      "maxTabs": 10,
-      "includePinned": false
+      "maxTabs": 3,
+	"historySize": 30,
+      "includePinned": false,
     }, items => {
+historySize = items.historySize;
       maxTabs = items.maxTabs;
       includePinned = items.includePinned;
       resolve();
@@ -79,6 +115,7 @@ browser.tabs.onCreated.addListener(tab => {
 	var match  = keys.filter(function(y) { return tabs_time[y] === lowest });
         browser.tabs.remove(parseInt(match[0]))
 	recordTab(tab.id)
+	recordHistory(tab.id)
       } else {
         updateButton(numTabs);
       }
