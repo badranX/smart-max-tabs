@@ -12,12 +12,14 @@
   "homepage_url": "https://github.com/kanru/max-tabs",
   "incognito": "spanning",
   "background": {
-    "scripts": ["lib/chroma.js", "background.js"],
- 
+    "scripts": [
+      "lib/chroma.js",
+      "background.js"
+    ],
     "persistent": false
   },
   "sidebar_action": {
-    "default_title": "Theme integrated sidebar",
+    "default_title": "closed tabs",
     "default_panel": "sidebar.html"
   },
   "options_ui": {
@@ -33,7 +35,7 @@
     "notifications",
     "storage",
     "theme",
-    "activeTab", 
+    "activeTab",
     "tabs"
   ]
 }
