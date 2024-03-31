@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
     const urlList = document.getElementById("urlList");
     const urlFilter = document.getElementById("urlFilter");
@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to send a message to the background script
     function sendMessageToBackground(message, callback) {
         // Firefox - using Promise
-        console.log("testtttt")
         browser.runtime.sendMessage(message).then(callback).catch((error) => {
             console.error("Error communicating with background script:", error);
         });
@@ -21,10 +20,9 @@ document.addEventListener("DOMContentLoaded", function() {
             action: "getClosedTabs"
         }, (closedTabs) => {
             urlList.innerHTML = ""; // Clear the list
-            console.log("recieved Closed tabs")
             // Filter the closed tabs based on the search query
             const filteredUrls = closedTabs.filter((tab) =>
-              //TODO title undefined check
+                //TODO title undefined check
                 tab.title.toLowerCase().includes(urlFilter.value.toLowerCase())
             );
 
@@ -33,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const a = document.createElement("a");
                 a.textContent = tab.title;
                 a.href = "#";
-                a.addEventListener("click", function() {
+                a.addEventListener("click", function () {
                     // Open the closed tab URL in a new tab
                     browser.tabs.create({
                         url: tab.url

@@ -14,7 +14,6 @@ let includePinned = false;
 let colorScale = chroma.scale(['#A6A6A6', '#B90000']);
 
 function test() {
-    console.log('test closedTabs')
     console.log(closedTabs)
 }
 
@@ -53,16 +52,9 @@ function deleteTab(tabId) {
     delete tabs[tabId]
 }
 
-let X = 10000
 // Listen for messages to retrieve closed tabs
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log("INNNN")
     if (request.action === "getClosedTabs") {
-        console.log("INNNNiifffff")
-        console.log(X)
-        console.log(historySize)
-        console.log(closedTabs)
-        test()
         sendResponse(closedTabs);
     }
 });
@@ -71,10 +63,14 @@ function updatePrefs() {
     return new Promise((resolve, reject) => {
         browser.storage.sync.get({
             "maxTabs": 2,
-            //"historySize": 30,
+            "historySize": 30,
             "includePinned": false,
         }, items => {
-            //historySize = items.historySize;
+            if (!items) {
+                reject("No items found in storage");
+                return;
+            }
+            historySize = items.historySize;
             maxTabs = items.maxTabs;
             includePinned = items.includePinned;
             resolve();
@@ -130,7 +126,7 @@ browser.tabs.onCreated.addListener(tab => {
                 if (matchId in tabsInfo) {
                     tmp = tabsInfo[matchId];
                     console.log('matching : ', tmp)
-                    if (!tmp.url.startsWith("about:")){
+                    if (!tmp.url.startsWith("about:")) {
                         recordHistory(tmp)
                     }
                 } else {
@@ -172,7 +168,7 @@ const filter = {
 }
 
 function handleUpdated(tabId, changeInfo, tabInfo) {
-   console.log('update: ' , tabId, tabInfo.url, tabInfo.title) 
+    console.log('update: ', tabId, tabInfo.url, tabInfo.title)
     recordInfo(tabId, tabInfo.title, tabInfo.url)
 }
 
