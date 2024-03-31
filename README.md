@@ -1,15 +1,3 @@
-This extension is Under Development
-=======
-- Install web-ext
-
-- inside the directory of this project, run `web-ext run`
-
-- If you want to read the console, run:
-`web-ext run --devtools `
-
-- If you want to run on a specific firefox installation add `-f`
-`web-ext run --devtools -f /opt/firefox/firefox `
-
 Smart Max Tabs
 ========
 
