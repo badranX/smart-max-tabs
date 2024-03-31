@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Ask the background script for closed tabs
     sendMessageToBackground({ action: "getClosedTabs" }, (closedTabs) => {
         urlList.innerHTML = ""; // Clear the list
+        console.log("recieved Closed tabs")
         console.log(closedTabs)
         // Filter the closed tabs based on the search query
         const filteredUrls = closedTabs.filter((tab) =>
