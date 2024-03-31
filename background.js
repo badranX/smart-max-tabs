@@ -13,20 +13,29 @@ let tabs_time = {}
 let includePinned = false;
 let colorScale = chroma.scale(['#A6A6A6', '#B90000']);
 
+function test() {
+    console.log('test closedTabs')
+    console.log(closedTabs)
+}
+
+function recordInfo(id, title, url) {
+    tabsInfo[id] = {
+        url: url,
+        title: title,
+        id: id
+    }
+}
+
 function recordHistory(tab) {
     closedTabs.push(tab)
     console.log('recording history')
     console.log(closedTabs)
-    tabsInfo[tab.id] = {
-        url: tab.url,
-        title: tab.title
-    }
     if (closedTabs.length > (maxTabs + historySize)) {
         deleteHistory()
     }
 }
 
-function recordTabStats(tabId) {
+function recordTabStats(tabId, tab) {
     prev = tabs[tabId] ?? 0;
     tabs[tabId] = prev + 1;
 
@@ -36,23 +45,24 @@ function recordTabStats(tabId) {
 
 function deleteHistory() {
     tab = closedTabs.shift()
-    console.log("detetHistory")
-    console.log(closedTabs)
     delete tabsInfo[tab.id]
 }
+
 function deleteTab(tabId) {
     delete tabs_time[tabId]
     delete tabs[tabId]
 }
 
-
+let X = 10000
 // Listen for messages to retrieve closed tabs
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("INNNN")
     if (request.action === "getClosedTabs") {
         console.log("INNNNiifffff")
+        console.log(X)
         console.log(historySize)
         console.log(closedTabs)
+        test()
         sendResponse(closedTabs);
     }
 });
@@ -103,28 +113,36 @@ browser.tabs.onRemoved.addListener(
         deleteTab(tabId)
     });
 
+
+
 browser.tabs.onCreated.addListener(tab => {
     if (browser.windows.get(tab.windowId).focused) {
         // We only care about the current window
         return;
     }
+    console.log(tab)
     if (tab.id != browser.tabs.TAB_ID_NONE) {
         queryNumTabs().then(numTabs => {
             if (numTabs > maxTabs) {
-                var keys = Object.keys(tabs_time);
-                var lowest = Math.min.apply(null, keys.map(function(x) {
-                    return tabs_time[x]
-                }));
-                var match = keys.filter(function(y) {
-                    return tabs_time[y] === lowest
-                });
-                matchid = match[0]
-                browser.tabs.remove(parseInt(matchid))
-                recordHistory(tab)
+                let matchId = Object.keys(tabs_time).reduce((key, v) => tabs_time[v] < tabs_time[key] ? v : key);
+                matchId = parseInt(matchId)
+                console.log("matchId", matchId)
+                if (matchId in tabsInfo) {
+                    tmp = tabsInfo[matchId];
+                    console.log('matching : ', tmp)
+                    if (!tmp.url.startsWith("about:")){
+                        recordHistory(tmp)
+                    }
+                } else {
+                    console.log('not found in tabsinfo')
+                    console.log(matchId)
+                }
+                browser.tabs.remove(matchId)
             } else {
                 updateButton(numTabs);
             }
         });
+        recordInfo(tab.id, tab.title, tab.url)
         recordTabStats(tab.id)
     }
 });
@@ -152,6 +170,13 @@ browser.tabs.onAttached.addListener((tabId, attachInfo) => {
 const filter = {
     properties: ["pinned"]
 }
+
+function handleUpdated(tabId, changeInfo, tabInfo) {
+   console.log('update: ' , tabId, tabInfo.url, tabInfo.title) 
+    recordInfo(tabId, tabInfo.title, tabInfo.url)
+}
+
+browser.tabs.onUpdated.addListener(handleUpdated);
 
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
     queryNumTabs().then(updateButton);

@@ -32,6 +32,8 @@
   "permissions": [
     "notifications",
     "storage",
-    "theme"
+    "theme",
+    "activeTab", 
+    "tabs"
   ]
 }
