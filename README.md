@@ -1,4 +1,4 @@
-How to test
+This extension is Under Development
 =======
 - Install web-ext
 
@@ -13,15 +13,17 @@ How to test
 Smart Max Tabs
 ========
 
-Max Tabs is a simple Firefox extension that does these:
+Smart Max Tabs is a simple Firefox extension that does these:
 
 - Set a maximum number of tabs opened in a window.
 - Close least used tabs.
+- Save closed tabs in a searchable sidebar (in case you need them).
 - Access closed tabs from sidebar, incase you need it.
 - Control and restrict oneself from opening too many tabs.
 - Prevent tabs from overloading and overflowing the tab bar.
 
-Forked from: <https://github.com/cheeaun/max-tabs>
+
+Note this project was originally forked from another extension called max-tabs.
 
 License
 ---
