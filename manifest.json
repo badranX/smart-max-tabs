@@ -1,15 +1,15 @@
 {
   "manifest_version": 2,
   "name": "Smart Max Tabs (Web Extension)",
-  "short_name": "Max Tabs",
+  "short_name": "Smart Max Tabs",
   "version": "0.1.0",
-  "description": "Max tab and ...TODO",
+  "description": "Automatically close least used tabs, and retrieve them whence needed",
   "default_locale": "en",
   "icons": {
     "48": "icons/icon-48.png"
   },
   "author": "Yahya Badran",
-  "homepage_url": "https://github.com/kanru/max-tabs",
+  "homepage_url": "https://github.com/badranX/smart-max-tabs",
   "incognito": "spanning",
   "background": {
     "scripts": [
@@ -30,7 +30,7 @@
   "browser_action": {
     "browser_style": true,
     "default_icon": "icons/icon.svg",
-    "default_title": "Max Tabs"
+    "default_title": "Smart Max Tabs"
   },
   "permissions": [
     "notifications",
