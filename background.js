@@ -6,7 +6,7 @@
 let title = browser.i18n.getMessage('title');
 let maxTabs = 10;
 let historySize = 30;
-let tabs = {}
+let tabs_visit_count = {}
 let tabsInfo = {}
 let closedTabs = []
 let tabs_time = {}
@@ -35,8 +35,8 @@ function recordHistory(tab) {
 }
 
 function recordTabStats(tabId, tab) {
-    prev = tabs[tabId] ?? 0;
-    tabs[tabId] = prev + 1;
+    prev = tabs_visit_count[tabId] ?? 0;
+    tabs_visit_count[tabId] = prev + 1;
 
     time = Date.now()
     tabs_time[tabId] = time
@@ -49,7 +49,7 @@ function deleteHistory() {
 
 function deleteTab(tabId) {
     delete tabs_time[tabId]
-    delete tabs[tabId]
+    delete tabs_visit_count[tabId]
 }
 
 // Listen for messages to retrieve closed tabs
@@ -108,7 +108,6 @@ browser.tabs.onRemoved.addListener(
     (tabId, removeInfo) => {
         deleteTab(tabId)
     });
-
 
 
 browser.tabs.onCreated.addListener(tab => {
