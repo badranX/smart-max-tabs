@@ -11,7 +11,6 @@ let tabsInfo = {}
 let closedTabs = []
 let tabs_time = {}
 let includePinned = false;
-let colorScale = chroma.scale(['#A6A6A6', '#B90000']);
 
 function test() {
     console.log(closedTabs)
@@ -85,9 +84,10 @@ function updateButton(numTabs) {
     browser.browserAction.setBadgeText({
         text: numTabs > 99 ? '99+' : numTabs.toString()
     });
-    browser.browserAction.setBadgeBackgroundColor({
-        color: colorScale(numTabs / maxTabs).hex()
-    });
+    //TODO
+    //browser.browserAction.setBadgeBackgroundColor({
+    //    color: colorScale(numTabs / maxTabs).hex()
+    //});
 }
 
 async function queryNumTabs() {
