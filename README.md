@@ -12,7 +12,7 @@ Smart Max Tabs is a simple Firefox extension that does these:
 
 > **_NOTE:_** This is a personal web extension that I use. If you think it is useful, star it so you can signal me that I should improve it and make it easily available for everyone.
 
-This project was originally forked from another extension called max-tabs that only limit the maximum number of open tabs: [https://github.com/kanru/max-tabs]()
+This project was originally forked from another extension called max-tabs that only limits the maximum number of open tabs: [https://github.com/kanru/max-tabs]()
 
 License
 ---
