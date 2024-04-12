@@ -4,7 +4,7 @@
 
 /*global browser, chroma */
 let title = browser.i18n.getMessage('title');
-let maxTabs = 2;
+let maxTabs = 10;
 let historySize = 30;
 let tabs = {}
 let tabsInfo = {}
@@ -62,14 +62,14 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 function updatePrefs() {
     return new Promise((resolve, reject) => {
         browser.storage.sync.get({
-            "maxTabs": 2,
+            "maxTabs": 10,
             "historySize": 30,
             "includePinned": false,
         }, items => {
-            if (!items) {
-                reject("No items found in storage");
-                return;
-            }
+            //if (!items) {
+            //    reject("No items found in storage");
+            //    return;
+            //}
             historySize = items.historySize;
             maxTabs = items.maxTabs;
             includePinned = items.includePinned;

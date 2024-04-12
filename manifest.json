@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Max Tabs (Web Extension)",
+  "name": "Smart Max Tabs (Web Extension)",
   "short_name": "Max Tabs",
   "version": "0.1.0",
   "description": "Max tab and ...TODO",
@@ -38,5 +38,10 @@
     "theme",
     "activeTab",
     "tabs"
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "techtweaking@gmail.com"
+    }
+  }
 }

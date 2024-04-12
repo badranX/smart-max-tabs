@@ -2,3 +2,9 @@
 node_modules
 bootstrap.js
 install.rdf
+
+.directory
+build/
+node_modules/
+*.sublime-workspace
+/nbproject/private/
