@@ -13,7 +13,6 @@
   "incognito": "spanning",
   "background": {
     "scripts": [
-      "lib/chroma.js",
       "background.js"
     ],
     "persistent": false
