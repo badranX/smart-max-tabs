@@ -9,6 +9,7 @@ Smart Max Tabs is a simple Firefox extension that does these:
 - Control and restrict oneself from opening too many tabs.
 - Prevent tabs from overloading and overflowing the tab bar.
 
+> **_WARNING:_** There's a fatal bug in this public repo, I will come back to it when I have more time.
 
 > **_NOTE:_** This is a personal web extension that I use. If you think it is useful, star it so you can signal me that I should improve it and make it easily available for everyone.
 
